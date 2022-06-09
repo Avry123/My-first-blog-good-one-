@@ -6,18 +6,19 @@ const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINTS;
 const graphcmsToken = process.env.GRAPHCMS_TOKEN;
 
 type Data = {
-  name: string
+  name: string,
+  url: string,
 }
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINTS;
-  const graphcmsToken = process.env.GRAPHCMS_TOKEN;
+  const graphqlAPI:string = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINTS || ' ';
+  const graphcmsToken = process.env.GRAPHCMS_TOKEN ;
 
   const {name , email, slug, comment} = req.body;
-  const graphQLClient = new GraphQLClient(graphqlAPI, {
+  const graphQLClient = new GraphQLClient(graphqlAPI , {
     headers: {
       authorization: `Bearer ${graphcmsToken}`
     }
@@ -35,7 +36,7 @@ export default async function handler(
     return res.status(200).send(result);
   } catch (error) {
    console.log(error);
-   return res.status(500).send(error);
+  //  return res.status(500).send(error);
   }
 
   
